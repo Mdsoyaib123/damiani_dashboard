@@ -15,10 +15,16 @@ export interface User {
         status: boolean;
         _id: string;
     };
+    outOfBalance: number;
     freezeUser: boolean;
     freezeWithdraw: boolean;
     quantityOfOrders: number;
     completedOrdersCount: number;
+    adminAssaignProductsOrRewards: Array<{
+        productId: number;
+        orderNumber: number;
+        _id: string;
+    }>;
     withdrawalAddressAndMethod: {
         _id: string;
         name: string;

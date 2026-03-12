@@ -314,6 +314,12 @@ const MemberTable = ({
 
     const startIndex = pagination ? (pagination.currentPage - 1) * pagination.limit : 0;
 
+    const formatMoney = (amount: number) =>
+        Number(amount || 0).toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+
     return (
         <div className="space-y-4">
             {/* Table Container with minimum height */}
@@ -332,7 +338,8 @@ const MemberTable = ({
                                 <TableHead>User Level</TableHead>
                                 <TableHead>Quantity of Orders</TableHead>
                                 <TableHead>Completed Orders</TableHead>
-                                <TableHead>Withdrawal Valid Odd Number</TableHead>
+                                <TableHead>Out of Balance</TableHead>
+                                <TableHead>Shot Assigned</TableHead>
                                 <TableHead>Actual Completed Today</TableHead>
                                 <TableHead>User Balance</TableHead>
                                 <TableHead>Total Recharge</TableHead>
@@ -451,11 +458,12 @@ const MemberTable = ({
                                         </TableCell>
                                         <TableCell>{user?.quantityOfOrders}</TableCell>
                                         <TableCell>{user?.completedOrdersCount}</TableCell>
-                                        <TableCell>{user?.withdrowalValidOddNumber}</TableCell>
+                                        <TableCell className={` ${user?.outOfBalance > 0 ? "text-red-500" : "text-green-500"}`}>{formatMoney(user?.outOfBalance)}</TableCell>
+                                        <TableCell className={`text-center ${user?.adminAssaignProductsOrRewards && user?.adminAssaignProductsOrRewards?.length > 0 ? "text-indigo-700" : "text-orange-700"}`}>{user?.adminAssaignProductsOrRewards && user?.adminAssaignProductsOrRewards?.length}</TableCell>
                                         <TableCell>{user?.actualCompletedNumberToday}</TableCell>
-                                        <TableCell>{user?.userBalance?.toLocaleString()}</TableCell>
-                                        <TableCell>{user?.memberTotalRecharge?.toLocaleString()}</TableCell>
-                                        <TableCell>{user?.memberTotalWithdrawal?.toLocaleString()}</TableCell>
+                                        <TableCell>{formatMoney(user?.userBalance)}</TableCell>
+                                        <TableCell>{formatMoney(user?.memberTotalRecharge)}</TableCell>
+                                        <TableCell>{formatMoney(user?.memberTotalWithdrawal)}</TableCell>
                                         <TableCell>{user?.userOrderFreezingAmount?.toLocaleString()}</TableCell>
                                         <TableCell>{user?.amountFrozedInWithdrawal?.toLocaleString()}</TableCell>
                                         <TableCell>{user?.isOnline ? <span className="text-green-500">🟢 Online</span> : <span className="text-red-500">🔴 Offline</span>}</TableCell>
