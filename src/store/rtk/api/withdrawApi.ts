@@ -84,12 +84,12 @@ export interface UpdateWithdrawalAddressPayload {
     withdrawMethod: "BankTransfer" | "MobileBanking";
     // Bank Transfer fields
     bankName?: string;
-    bankAccountNumber?: number;
+    bankAccountNumber?: string;
     branchName?: string;
     district?: string;
     // Mobile Banking fields
     mobileBankingName?: string;
-    mobileBankingAccountNumber?: number;
+    mobileBankingAccountNumber?: string;
 }
 
 // New types for Superior User Recharge/Withdraw

@@ -22,11 +22,11 @@ interface UpdateWithdrawalAddressDialogProps {
             name: string;
             withdrawMethod: "BankTransfer" | "MobileBanking";
             bankName?: string;
-            bankAccountNumber?: number;
+            bankAccountNumber?: string;
             branchName?: string;
             district?: string;
             mobileBankingName?: string;
-            mobileBankingAccountNumber?: number;
+            mobileBankingAccountNumber?: string;
         }
     ) => void;
     isLoading: boolean;
@@ -96,7 +96,7 @@ export function UpdateWithdrawalAddressDialog({
             payload = {
                 ...payload,
                 bankName,
-                bankAccountNumber: Number(accountNumber),
+                bankAccountNumber: accountNumber,
                 district: districtName,
             };
 
