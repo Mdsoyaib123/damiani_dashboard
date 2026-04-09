@@ -22,11 +22,13 @@ interface UpdateWithdrawalAddressDialogProps {
             name: string;
             withdrawMethod: "BankTransfer" | "MobileBanking";
             bankName?: string;
-            bankAccountNumber?: string;
+            bankAccountNumber?: string | number;
             branchName?: string;
             district?: string;
             mobileBankingName?: string;
-            mobileBankingAccountNumber?: string;
+            mobileBankingAccountNumber?: string | number;
+            mobileUserDistrict?: string;
+            withdrawPassword?: string;
         }
     ) => void;
     isLoading: boolean;
@@ -82,21 +84,25 @@ export function UpdateWithdrawalAddressDialog({
     const handleSubmit = () => {
         if (!user || !accountType) return;
 
+        if (withdrawPassword && withdrawPassword !== confirmWithdrawPassword) {
+            toast.error("Withdraw Password and Confirm Withdraw Password do not match");
+            return;
+        }
+
         let payload: any = {
             name,
             withdrawMethod: accountType,
         };
 
-        if (withdrawPassword !== confirmWithdrawPassword) {
-            toast.error("Withdraw Password and Confirm Withdraw Password do not match");
-            return;
+        if (withdrawPassword) {
+            payload.withdrawPassword = withdrawPassword;
         }
 
         if (accountType === "BankTransfer") {
             payload = {
                 ...payload,
                 bankName,
-                bankAccountNumber: accountNumber,
+                bankAccountNumber: Number(accountNumber),
                 district: districtName,
             };
 
@@ -109,7 +115,6 @@ export function UpdateWithdrawalAddressDialog({
                 mobileBankingName: provider,
                 mobileBankingAccountNumber: Number(mobileNumber),
                 mobileUserDistrict: districtName,
-                withdrawPassword,
             };
         }
 
