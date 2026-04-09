@@ -4,6 +4,7 @@ import DashboardLayout from "@/layout/DashboardLayout";
 import Home from "@/pages/Home";
 import Login from "@/pages/Login";
 import Signup from "@/pages/Signup";
+import OTPVerification from "@/pages/OTPVerification";
 import MemberList from "@/pages/MemberList";
 import Withdraw from "@/pages/Withdraw";
 import ProductList from "@/pages/ProductList";
@@ -19,6 +20,7 @@ const AppRoutes = () => {
       {/* <Route path="/" element={<div className="text-white">Home</div>} /> */}
       <Route path="/" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/otp-verification" element={<OTPVerification />} />
       <Route
         element={
           <PrivateRoute allowedRoles={["admin"]}>

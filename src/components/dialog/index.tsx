@@ -9,3 +9,4 @@ export { default as NewMemberDialog } from './NewMemberDialog';
 export { default as AddAmountDialog } from './AddAmountDialog';
 export { default as DecreaseAmountDialog } from './DecreaseAmountDialog';
 export { SetOrderRoundDialog } from './SetOrderRoundDialog';
+export { ResetShotDialog } from './ResetShotDialog';

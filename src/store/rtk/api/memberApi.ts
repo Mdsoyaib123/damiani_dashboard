@@ -265,6 +265,14 @@ export const memberApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["Member"],
         }),
+
+        resetAdminAssignedProducts: builder.mutation<any, string | number>({
+            query: (userId) => ({
+                url: `/user/reset-admin-assigned-products/${userId}`,
+                method: "PATCH",
+            }),
+            invalidatesTags: ["Member"],
+        }),
     }),
 });
 
@@ -279,4 +287,5 @@ export const {
     useUpdateScoreMutation,
     useFreezeWithdrawMutation,
     useUpdatePasswordFromAdminMutation,
+    useResetAdminAssignedProductsMutation,
 } = memberApi;

@@ -26,18 +26,16 @@ const Login = () => {
         role: response.data.role,
       };
 
-      const token = response.data.accessToken;
-
-      // Save to zustand + localStorage
-      setAuth(user, token);
-
-      toast.success(response.message || "Login successful!");
-
-      // ✅ Role-based navigation
+      // ✅ Role-based logic
       if (user.role === "admin") {
-        navigate("/dashboard");
+        toast.info("OTP required for admin access");
+        navigate("/otp-verification", { state: { userId: user.userId } });
       } else {
-        toast.error("Unauthorized access");
+        // For non-admin (if applicable), set auth immediately
+        const token = response.data.accessToken;
+        setAuth(user, token);
+        toast.success(response.message || "Login successful!");
+        navigate("/dashboard");
       }
     } catch (error: any) {
       const errorMessage =

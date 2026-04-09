@@ -26,6 +26,23 @@ export interface LoginResponse {
 }
 
 
+export interface OtpPayload {
+    otp: string;
+    userId: string;
+}
+
+export interface OtpResponse {
+    success: boolean;
+    message: string;
+    data: {
+        accessToken: string;
+        refreshToken: string;
+        userId: number;
+        role: "admin" | "user";
+    };
+}
+
+
 export const authApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         login: builder.mutation<LoginResponse, LoginPayload>({
@@ -35,6 +52,15 @@ export const authApi = baseApi.injectEndpoints({
                 body: credentials,
             }),
             // Optional: invalidate tags if needed after login
+            invalidatesTags: ["User"],
+        }),
+
+        verifyAdminOtp: builder.mutation<OtpResponse, OtpPayload>({
+            query: (payload) => ({
+                url: "/auth/verify-admin-otp",
+                method: "POST",
+                body: payload,
+            }),
             invalidatesTags: ["User"],
         }),
 
@@ -51,5 +77,6 @@ export const authApi = baseApi.injectEndpoints({
 
 export const {
     useLoginMutation,
+    useVerifyAdminOtpMutation,
     useLogoutMutation,
 } = authApi;

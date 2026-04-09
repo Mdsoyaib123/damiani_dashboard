@@ -30,7 +30,8 @@ import {
     useUpdateOrderAmountSlotMutation,
     useUpdateOrderRoundMutation,
     useUpdateScoreMutation,
-    useFreezeWithdrawMutation
+    useFreezeWithdrawMutation,
+    useResetAdminAssignedProductsMutation
 } from "@/store/rtk/api/memberApi";
 import { toast } from "react-toastify";
 import { FreezeMemberDialog } from "../dialog/FreezeMemberDialog";
@@ -41,6 +42,7 @@ import { FreezeWithdrawDialog } from "../dialog/FreezeWithdrawDialog";
 import { ViewWithdrawalAddressDialog } from "../dialog/ViewWithdrawalAddressDialog";
 import { UpdateWithdrawalAddressDialog } from "../dialog/UpdateWithdrawalAddressDialog";
 import { UpdatePasswordDialog } from "../dialog/UpdatePasswordDialog";
+import { ResetShotDialog } from "../dialog/ResetShotDialog";
 import { useUpdateWithdrawalAddressMutation } from "@/store/rtk/api/withdrawApi";
 import { useUpdatePasswordFromAdminMutation } from "@/store/rtk/api/memberApi";
 
@@ -90,6 +92,8 @@ const MemberTable = ({
     const [updateWithdrawalDialogOpen, setUpdateWithdrawalDialogOpen] = useState(false);
     const [selectedUserForPassword, setSelectedUserForPassword] = useState<User | null>(null);
     const [updatePasswordDialogOpen, setUpdatePasswordDialogOpen] = useState(false);
+    const [selectedUserForReset, setSelectedUserForReset] = useState<User | null>(null);
+    const [resetDialogOpen, setResetDialogOpen] = useState(false);
 
     const [updateScore, { isLoading: isUpdatingScore }] = useUpdateScoreMutation();
     const [updateOrderAmount, { isLoading: isUpdatingOrderAmount }] = useUpdateOrderAmountSlotMutation();
@@ -98,6 +102,7 @@ const MemberTable = ({
     const [freezeWithdraw, { isLoading: isFreezingWithdraw }] = useFreezeWithdrawMutation();
     const [updateWithdrawalAddress, { isLoading: isUpdatingWithdrawalAddress }] = useUpdateWithdrawalAddressMutation();
     const [updatePassword, { isLoading: isUpdatingPassword }] = useUpdatePasswordFromAdminMutation();
+    const [resetShot, { isLoading: isResettingShot }] = useResetAdminAssignedProductsMutation();
 
     const closeDropdown = () => setOpenDropdownUserId(null);
 
@@ -312,6 +317,17 @@ const MemberTable = ({
         }
     };
 
+    const handleResetShot = async (userId: string | number) => {
+        try {
+            await resetShot(userId).unwrap();
+            toast.success("Assigned products reset successfully.");
+            setResetDialogOpen(false);
+            setSelectedUserForReset(null);
+        } catch (err: any) {
+            toast.error(err?.data?.message || "Failed to reset assigned products");
+        }
+    };
+
     const startIndex = pagination ? (pagination.currentPage - 1) * pagination.limit : 0;
 
     const formatMoney = (amount: number) =>
@@ -340,6 +356,7 @@ const MemberTable = ({
                                 <TableHead>Completed Orders</TableHead>
                                 <TableHead>Out of Balance</TableHead>
                                 <TableHead>Shot Assigned</TableHead>
+                                <TableHead>Reset Shot</TableHead>
                                 <TableHead>Actual Completed Today</TableHead>
                                 <TableHead>User Balance</TableHead>
                                 <TableHead>Total Recharge</TableHead>
@@ -460,6 +477,17 @@ const MemberTable = ({
                                         <TableCell>{user?.completedOrdersCount}</TableCell>
                                         <TableCell className={` ${user?.outOfBalance > 0 ? "text-red-500" : "text-green-500"}`}>{formatMoney(user?.outOfBalance)}</TableCell>
                                         <TableCell className={`text-center ${user?.adminAssaignProductsOrRewards && user?.adminAssaignProductsOrRewards?.length > 0 ? "text-indigo-700" : "text-orange-700"}`}>{user?.adminAssaignProductsOrRewards && user?.adminAssaignProductsOrRewards?.length}</TableCell>
+                                        <TableCell>
+                                            <button 
+                                                onClick={() => {
+                                                    setSelectedUserForReset(user);
+                                                    setResetDialogOpen(true);
+                                                }}
+                                                className="bg-red-500 text-white px-2 py-1 rounded cursor-pointer hover:bg-red-600 transition-colors"
+                                            >
+                                                Reset
+                                            </button>
+                                        </TableCell>
                                         <TableCell>{user?.actualCompletedNumberToday}</TableCell>
                                         <TableCell>{formatMoney(user?.userBalance)}</TableCell>
                                         <TableCell>{formatMoney(user?.memberTotalRecharge)}</TableCell>
@@ -723,6 +751,13 @@ const MemberTable = ({
                 user={selectedUserForPassword}
                 onConfirm={handleUpdatePassword}
                 isLoading={isUpdatingPassword}
+            />
+            <ResetShotDialog
+                open={resetDialogOpen}
+                onOpenChange={setResetDialogOpen}
+                user={selectedUserForReset}
+                onConfirm={handleResetShot}
+                isLoading={isResettingShot}
             />
         </div>
     );
