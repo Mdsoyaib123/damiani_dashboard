@@ -276,11 +276,11 @@ const MemberTable = ({
             name: string;
             withdrawMethod: "BankTransfer" | "MobileBanking";
             bankName?: string;
-            bankAccountNumber?: string | number;
+            bankAccountNumber?: string;
             branchName?: string;
             district?: string;
             mobileBankingName?: string;
-            mobileBankingAccountNumber?: string | number;
+            mobileBankingAccountNumber?: string;
             mobileUserDistrict?: string;
             withdrawPassword?: string;
         }

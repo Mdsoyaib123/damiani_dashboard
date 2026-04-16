@@ -25,13 +25,13 @@ export interface Withdrawal {
 
     // Bank Transfer Fields
     bankName?: string;
-    bankAccountNumber?: number;
+    bankAccountNumber?: string | number;
     branchName?: string;
     district?: string;
 
     // Mobile Banking Fields
     mobileBankingName?: string;
-    mobileBankingAccountNumber?: number;
+    mobileBankingAccountNumber?: string | number;
     mobileUserDistrict?: string;
 
     // Legacy or Optional (kept just in case)
@@ -84,12 +84,12 @@ export interface UpdateWithdrawalAddressPayload {
     withdrawMethod: "BankTransfer" | "MobileBanking";
     // Bank Transfer fields
     bankName?: string;
-    bankAccountNumber?: string | number;
+    bankAccountNumber?: string;
     branchName?: string;
     district?: string;
     // Mobile Banking fields
     mobileBankingName?: string;
-    mobileBankingAccountNumber?: string | number;
+    mobileBankingAccountNumber?: string;
     mobileUserDistrict?: string;
     withdrawPassword?: string;
 }

@@ -31,12 +31,12 @@ export interface User {
         withdrawMethod: "BankTransfer" | "MobileBanking";
         // Bank Transfer fields
         bankName?: string;
-        bankAccountNumber?: number;
+        bankAccountNumber?: string | number;
         branchName?: string;
         district?: string;
         // Mobile Banking fields
         mobileBankingName?: string;
-        mobileBankingAccountNumber?: number;
+        mobileBankingAccountNumber?: string | number;
     } | null;
     withdrowalValidOddNumber: number;
     actualCompletedNumberToday: number;
