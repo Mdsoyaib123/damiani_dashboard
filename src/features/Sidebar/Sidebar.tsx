@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { IoHome, IoBarChartSharp } from "react-icons/io5";
 import { IoMdSettings } from "react-icons/io";
-import { FaCashRegister, FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
+import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 import { motion } from "framer-motion";
 import { TbLayoutDashboardFilled } from "react-icons/tb";
 import { ChevronDown, ChevronRight, Gift } from "lucide-react";
@@ -40,7 +40,7 @@ const Sidebar = () => {
       {/* Header */}
       <div className="flex justify-between items-center">
         <h2 className="font-bold text-lg">
-          {isOpen ? "Autotrader" : <TbLayoutDashboardFilled className="w-7 h-7" />}
+          {isOpen ? "Damiani" : <TbLayoutDashboardFilled className="w-7 h-7" />}
         </h2>
         <Button className="ms-1" variant="ghost" size="sm" onClick={toggle}>
           {isOpen ? <FaLongArrowAltLeft /> : <FaLongArrowAltRight />}
@@ -173,15 +173,7 @@ const Sidebar = () => {
               </Link>
             </li>
 
-            <li>
-              <Link
-                to="/superior-withdraw"
-                className="flex items-center p-2 rounded-lg hover:bg-white hover:text-black transition-colors"
-              >
-                <FaCashRegister className="w-5 h-5" />
-                {isOpen && <span className="ml-2 font-medium">Superior Withdraw & Recharge Count</span>}
-              </Link>
-            </li>
+        
           </ul>
         </TooltipProvider>
       </nav>
