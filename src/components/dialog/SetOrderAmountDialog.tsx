@@ -17,7 +17,7 @@ import type { User } from "@/types/user";
 import { toast } from "react-toastify";
 
 const ORDER_SLOTS = [
-    10500, 30000, 50000, 100000, 200000, 300000, 500000, 1000000
+    9000, 30000, 50000, 100000, 200000, 300000, 500000, 1000000
 ] as const;
 
 interface SetOrderAmountDialogProps {
